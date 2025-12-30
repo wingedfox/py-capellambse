@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-import capellambse.model as m
 from capellambse.metamodel import re
+from capellambse.model import _descriptors
 
 from . import capellacore
 from . import namespaces as ns
@@ -12,11 +12,11 @@ NS = ns.CAPELLAMODELLER
 
 
 class Project(capellacore.Structure):
-    key_value_pairs = m.Containment["capellacore.KeyValue"](
+    key_value_pairs = _descriptors.Containment["capellacore.KeyValue"](
         "keyValuePairs", (ns.CAPELLACORE, "KeyValue")
     )
-    folders = m.Containment["Folder"]("ownedFolders", (NS, "Folder"))
-    model_roots = m.Containment["ModelRoot"](
+    folders = _descriptors.Containment["Folder"]("ownedFolders", (NS, "Folder"))
+    model_roots = _descriptors.Containment["ModelRoot"](
         "ownedModelRoots", (NS, "ModelRoot")
     )
 
@@ -28,8 +28,8 @@ class Project(capellacore.Structure):
 
 
 class Folder(capellacore.Structure):
-    folders = m.Containment["Folder"]("ownedFolders", (NS, "Folder"))
-    model_roots = m.Containment["ModelRoot"](
+    folders = _descriptors.Containment["Folder"]("ownedFolders", (NS, "Folder"))
+    model_roots = _descriptors.Containment["ModelRoot"](
         "ownedModelRoots", (NS, "ModelRoot")
     )
 
@@ -58,7 +58,7 @@ class SystemEngineering(capellacore.AbstractModellingStructure, ModelRoot):
     [source:MIL-STD 499B standard]
     """
 
-    extensions = m._descriptors.Containment[re.ReElementContainer](
+    extensions = _descriptors.Containment[re.ReElementContainer](
         "ownedExtensions", (ns.RE, "RecCatalog")
     )
 
@@ -141,7 +141,7 @@ class SystemEngineering(capellacore.AbstractModellingStructure, ModelRoot):
 class SystemEngineeringPkg(capellacore.Structure, ModelRoot):
     """A package that contains system engineering elements."""
 
-    system_engineerings = m.Containment["SystemEngineering"](
+    system_engineerings = _descriptors.Containment["SystemEngineering"](
         "ownedSystemEngineerings", (NS, "SystemEngineering")
     )
 
