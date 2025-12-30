@@ -52,6 +52,7 @@ from lxml import etree
 
 import capellambse
 from capellambse import helpers
+from capellambse.model import _obj
 
 from . import T, T_co, U, U_co
 
@@ -429,7 +430,7 @@ class Optional(Accessor[T_co | "_obj.ElementList[T_co]" | None ], t.Generic[T_co
 
     def __delete__(self, obj: _obj.ModelObject) -> None:
         """Delete the attribute."""
-        if self.objs:
+        if self.__objs:
             self.wrapped.__delete__(obj)
 
     def __set_name__(self, owner: type[_obj.ModelObject], name: str) -> None:
@@ -554,7 +555,7 @@ class Single(Accessor[T_co | None], t.Generic[T_co]):
         return contextlib.nullcontext(None)
 
 
-class Relationship(Accessor["_obj.ElementList[T_co]"], t.Generic[T_co]):
+class Relationship(Accessor[_obj.ElementList[T_co]], t.Generic[T_co]):
     list_type: type[_obj.ElementListCouplingMixin]
     list_extra_args: cabc.Mapping[str, t.Any]
     single_attr: str | None
